@@ -1,16 +1,16 @@
-
 import './App.css'
-import toast, { Toaster } from 'react-hot-toast'
 import Navbar from './components/Navbar'
+import Herosec from './components/Herosec'
+import { Toaster } from 'react-hot-toast'
+
 function App() {
   return (
     <div>
-      <Navbar/>
-
+      <Navbar />
+      <Herosec />
       <Toaster />
     </div>
-  );
+  )
 }
 
 export default App;
-
