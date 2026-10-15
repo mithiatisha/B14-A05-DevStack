@@ -3,10 +3,10 @@ import bannerStack from '../assets/banner-stack.png';
 
 const Herosec = () => {
     return (
-        <section className="bg-white text-[#334155] px-17 pt-4 pb-12 md:pt-6 md:pb-16">
+        <section className="bg-white text-[#334155] px-17 pt-4 pb-8 md:pt-6 md:pb-16">
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
 
-                {/* Left Content */}
+                
                 <div className="flex-1 text-center md:text-left">
                    <h1 className="text-4xl md:text-6xl font-bold leading-tight">
                        Build Your Ideal
