@@ -1,5 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
   SiReact,
   SiVuedotjs,
@@ -14,9 +15,6 @@ import {
   SiTailwindcss,
   SiDocker,
 } from 'react-icons/si';
-
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import Header from './Header';
 import TechCard from './TechCard';
@@ -70,55 +68,37 @@ function TechExplorer() {
   }, []);
 
   const handleAddToStack = (tech) => {
-    if (stack.some((item) => item.id === tech.id)) {
-      toast.info(`${tech.name} is already in your stack!`);
-      return;
-    }
+    setStack((previousStack) => {
+      if (previousStack.some((item) => item.id === tech.id)) {
+        return previousStack;
+      }
 
-    setStack((previousStack) => [...previousStack, tech]);
-    toast.success(`${tech.name} added to your stack!`);
+      return [...previousStack, tech];
+    });
   };
 
   const handleRemoveFromStack = (id) => {
-    const technology = stack.find((item) => item.id === id);
-
-    if (!technology) {
-      return;
-    }
-
     setStack((previousStack) =>
       previousStack.filter((item) => item.id !== id)
     );
-
-    toast.info(`${technology.name} removed from your stack.`);
   };
 
   const handleClearStack = () => {
-    if (stack.length === 0) {
-      toast.info('Your stack is already empty!');
-      return;
-    }
-
     setStack([]);
-    toast.success('All technologies removed from your stack!');
   };
 
   if (loading) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-white font-sans text-gray-500">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-pink-600" />
-        <p>Loading technologies...</p>
+      <div className="flex min-h-screen items-center justify-center bg-white font-sans text-gray-500">
+        Loading technologies...
       </div>
     );
   }
 
   if (loadError) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-white px-6 font-sans text-red-500">
-        <p>
-          Failed to load technologies. Please check technologies.json and try
-          again.
-        </p>
+      <div className="flex min-h-screen items-center justify-center bg-white font-sans text-red-500">
+        Failed to load technologies. Please check technologies.json.
       </div>
     );
   }
@@ -127,8 +107,10 @@ function TechExplorer() {
     <div className="mx-auto min-h-screen max-w-7xl bg-white px-6 pt-0 pb-18 font-sans md:px-16">
       <Header />
 
-      <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-4">
-        {/* Technology explorer */}
+   
+      <div className="relative grid grid-cols-1 items-start gap-8 lg:grid-cols-4">
+
+       
         <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:col-span-3">
           {technologiesData.map((tech) => (
             <TechCard
@@ -140,8 +122,8 @@ function TechExplorer() {
           ))}
         </section>
 
-       
-        <aside className="hidden min-w-0 lg:col-span-1 lg:block">
+    
+        <aside className="hidden min-w-0 lg:col-span-1 lg:block sticky top-6 self-start">
           <Stack
             stack={stack}
             onRemove={handleRemoveFromStack}
@@ -149,28 +131,18 @@ function TechExplorer() {
           />
         </aside>
 
-        
-        <section className="w-full lg:hidden">
+     
+        <section className="lg:hidden w-full">
           <Stack
             stack={stack}
             onRemove={handleRemoveFromStack}
             onClear={handleClearStack}
           />
         </section>
-      </div>
 
-     
-      <ToastContainer
-        position="top-right"
-        autoClose={2500}
-        newestOnTop
-        closeOnClick
-        pauseOnHover
-        theme="light"
-      />
+      </div>
     </div>
   );
 }
 
 export default TechExplorer;
-
